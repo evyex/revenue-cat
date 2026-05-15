@@ -15,6 +15,8 @@ use Evyex\RevenueCat\Request\ListRequest;
 
 final readonly class RevenueCatClient
 {
+    private const API_V2_PREFIX = '/v2';
+
     public function __construct(
         private ApiTransport $transport,
         private Config $config,
@@ -30,7 +32,7 @@ final readonly class RevenueCatClient
     {
         $data = $this->transport->request(
             'POST',
-            sprintf('/projects/%s/customers', rawurlencode($this->config->projectId)),
+            sprintf(self::API_V2_PREFIX . '/projects/%s/customers', rawurlencode($this->config->projectId)),
             body: $request->toArray(),
         );
 
@@ -46,7 +48,7 @@ final readonly class RevenueCatClient
 
         $data = $this->transport->request(
             'GET',
-            sprintf('/projects/%s/customers/%s', rawurlencode($this->config->projectId), rawurlencode($customerId)),
+            sprintf(self::API_V2_PREFIX . '/projects/%s/customers/%s', rawurlencode($this->config->projectId), rawurlencode($customerId)),
             query: $query,
         );
 
@@ -58,7 +60,7 @@ final readonly class RevenueCatClient
     {
         $data = $this->transport->request(
             'GET',
-            sprintf('/projects/%s/customers/%s/subscriptions', rawurlencode($this->config->projectId), rawurlencode($customerId)),
+            sprintf(self::API_V2_PREFIX . '/projects/%s/customers/%s/subscriptions', rawurlencode($this->config->projectId), rawurlencode($customerId)),
             query: $request->toQuery(),
         );
 
@@ -70,7 +72,7 @@ final readonly class RevenueCatClient
     {
         $data = $this->transport->request(
             'GET',
-            sprintf('/projects/%s/customers/%s/purchases', rawurlencode($this->config->projectId), rawurlencode($customerId)),
+            sprintf(self::API_V2_PREFIX . '/projects/%s/customers/%s/purchases', rawurlencode($this->config->projectId), rawurlencode($customerId)),
             query: $request->toQuery(),
         );
 
@@ -82,7 +84,7 @@ final readonly class RevenueCatClient
     {
         $data = $this->transport->request(
             'GET',
-            sprintf('/projects/%s/customers/%s/active_entitlements', rawurlencode($this->config->projectId), rawurlencode($customerId)),
+            sprintf(self::API_V2_PREFIX . '/projects/%s/customers/%s/active_entitlements', rawurlencode($this->config->projectId), rawurlencode($customerId)),
             query: $request->toQuery(),
         );
 

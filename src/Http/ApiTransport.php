@@ -6,6 +6,7 @@ namespace Evyex\RevenueCat\Http;
 
 use Evyex\RevenueCat\Exception\ApiErrorException;
 use Evyex\RevenueCat\Exception\RevenueCatException;
+use InvalidArgumentException;
 use JsonException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
@@ -13,30 +14,34 @@ use Psr\Http\Message\RequestFactoryInterface;
 
 final readonly class ApiTransport
 {
+    private const API_HOST = 'https://api.revenuecat.com';
+
+    private readonly ?string $authToken;
+
     public function __construct(
         private ClientInterface $httpClient,
         private RequestFactoryInterface $requestFactory,
-        private string $baseUri,
-        private ?string $authToken = null,
+        ?string $authToken = null,
     ) {
+        $this->authToken = self::normalizeAuthToken($authToken);
     }
 
     public function withAuthToken(string $authToken): self
     {
-        return new self($this->httpClient, $this->requestFactory, $this->baseUri, $authToken);
+        return new self($this->httpClient, $this->requestFactory, $authToken);
     }
 
     /** @return array<string,mixed> */
     public function request(string $method, string $path, array $query = [], ?array $body = null): array
     {
-        $url = rtrim($this->baseUri, '/') . '/' . ltrim($path, '/');
+        $url = rtrim(self::API_HOST, '/') . '/' . ltrim($path, '/');
         if ($query !== []) {
             $url .= '?' . http_build_query($query);
         }
 
         $request = $this->requestFactory->createRequest($method, $url)->withHeader('Accept', 'application/json');
 
-        if ($this->authToken !== null && $this->authToken !== '') {
+        if ($this->authToken !== null) {
             $request = $request->withHeader('Authorization', 'Bearer ' . $this->authToken);
         }
 
@@ -71,5 +76,19 @@ final readonly class ApiTransport
         }
 
         return $decoded;
+    }
+
+    private static function normalizeAuthToken(?string $authToken): ?string
+    {
+        if ($authToken === null) {
+            return null;
+        }
+
+        $trimmed = trim($authToken);
+        if ($trimmed === '') {
+            throw new InvalidArgumentException('RevenueCat auth token must not be blank.');
+        }
+
+        return $trimmed;
     }
 }

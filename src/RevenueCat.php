@@ -15,6 +15,6 @@ final class RevenueCat
         RequestFactoryInterface $requestFactory,
         Config $config,
     ): RevenueCatClient {
-        return RevenueCatClient::build(new ApiTransport($httpClient, $requestFactory, $config->baseUri), $config);
+        return RevenueCatClient::build(new ApiTransport($httpClient, $requestFactory), $config);
     }
 }
