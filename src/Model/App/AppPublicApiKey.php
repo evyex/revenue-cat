@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Evyex\RevenueCat\Model\App;
 
-use Evyex\RevenueCat\Model\Enum\Environment;
+use Evyex\RevenueCat\Enum\Environment;
 use Evyex\RevenueCat\Model\ModelInterface;
 use Evyex\RevenueCat\Normalizer;
 

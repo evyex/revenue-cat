@@ -8,14 +8,14 @@ use Evyex\RevenueCat\Model\App\AppList;
 use Evyex\RevenueCat\Normalizer;
 use Evyex\RevenueCat\Request\Helpers\AuthTrait;
 use Evyex\RevenueCat\Request\Helpers\GetTrait;
-use Evyex\RevenueCat\Request\Helpers\QueryParamTrait;
+use Evyex\RevenueCat\Request\Helpers\ParamTrait;
 use Evyex\RevenueCat\Request\RevenueCatRequestInterface;
 
 final class ListAppsRequest implements RevenueCatRequestInterface
 {
     use AuthTrait;
     use GetTrait;
-    use QueryParamTrait;
+    use ParamTrait;
 
     public function __construct(
         #[\SensitiveParameter]

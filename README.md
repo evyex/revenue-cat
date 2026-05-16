@@ -32,3 +32,29 @@ $response = $client->send(new ListAppsRequest(
 
 $apps = $response->getData();
 ```
+
+## Example: Create app (v2)
+
+```php
+<?php
+
+use Evyex\RevenueCat\Model\Enum\RcBillingCurrency;
+use Evyex\RevenueCat\Request\App\Create\Payload\RcBillingAppCreatePayload;
+use Evyex\RevenueCat\Request\App\CreateAppRequest;
+use Evyex\RevenueCat\RevenueCatClient;
+
+$client = new RevenueCatClient($httpClient, $requestFactory, $streamFactory);
+
+$response = $client->send(new CreateAppRequest(
+    token: 'rc_xxx_secret_v2_key',
+    projectId: 'proj1ab2c3d4',
+    name: 'My RevenueCat App',
+    payload: new RcBillingAppCreatePayload(
+        appName: 'My RevenueCat App',
+        defaultCurrency: RcBillingCurrency::USD,
+        supportEmail: 'support@example.com',
+    ),
+));
+
+$app = $response->getData();
+```

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Evyex\RevenueCat\Model\App;
 
-use Evyex\RevenueCat\Model\Enum\AppType;
+use Evyex\RevenueCat\Enum\AppType;
 use Evyex\RevenueCat\Model\ModelInterface;
 use Evyex\RevenueCat\Model\Store\Amazon;
 use Evyex\RevenueCat\Model\Store\AppStore;
