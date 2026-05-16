@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Evyex\RevenueCat\Model\App;
 
+use Evyex\RevenueCat\Model\Enum\Environment;
 use Evyex\RevenueCat\Model\ModelInterface;
 use Evyex\RevenueCat\Normalizer;
 
@@ -13,7 +14,7 @@ readonly class AppPublicApiKey implements ModelInterface
         private string $object,
         private string $id,
         private string $key,
-        private string $environment,
+        private Environment $environment,
         private string $appId,
         private \DateTimeImmutable $createdAt,
     )
@@ -26,7 +27,7 @@ readonly class AppPublicApiKey implements ModelInterface
             object: $data['object'],
             id: $data['id'],
             key: $data['key'],
-            environment: $data['environment'],
+            environment: Environment::from($data['environment']),
             appId: $data['app_id'],
             createdAt: Normalizer::dateTime($data['created_at']),
         );
@@ -47,7 +48,7 @@ readonly class AppPublicApiKey implements ModelInterface
         return $this->key;
     }
 
-    public function getEnvironment(): string
+    public function getEnvironment(): Environment
     {
         return $this->environment;
     }
