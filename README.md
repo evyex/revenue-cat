@@ -78,6 +78,28 @@ $response = $client->send(new DeleteAppRequest(
 $deleted = $response->getData();
 ```
 
+## Example: Update app (v2)
+
+```php
+<?php
+
+use Evyex\RevenueCat\Request\App\Create\Payload\PlayStoreAppCreatePayload;
+use Evyex\RevenueCat\Request\App\UpdateAppRequest;
+use Evyex\RevenueCat\RevenueCatClient;
+
+$client = new RevenueCatClient($httpClient, $requestFactory, $streamFactory);
+
+$response = $client->send(new UpdateAppRequest(
+    token: 'rc_xxx_secret_v2_key',
+    projectId: 'proj1ab2c3d4',
+    appId: 'app1a2b3c4',
+    name: 'Updated app name',
+    payload: new PlayStoreAppCreatePayload(packageName: 'com.example.updated'),
+));
+
+$app = $response->getData();
+```
+
 ## Example: Get app (v2)
 
 ```php

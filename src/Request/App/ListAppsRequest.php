@@ -11,7 +11,7 @@ use Evyex\RevenueCat\Request\Helpers\GetTrait;
 use Evyex\RevenueCat\Request\Helpers\ParamTrait;
 use Evyex\RevenueCat\Request\RevenueCatRequestInterface;
 
-final class ListAppsRequest implements RevenueCatRequestInterface
+class ListAppsRequest implements RevenueCatRequestInterface
 {
     use AuthTrait;
     use GetTrait;

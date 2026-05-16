@@ -10,7 +10,7 @@ use Evyex\RevenueCat\Request\Helpers\AuthTrait;
 use Evyex\RevenueCat\Request\Helpers\DeleteTrait;
 use Evyex\RevenueCat\Request\RevenueCatRequestInterface;
 
-final class DeleteAppRequest implements RevenueCatRequestInterface
+class DeleteAppRequest implements RevenueCatRequestInterface
 {
     use AuthTrait;
     use DeleteTrait;

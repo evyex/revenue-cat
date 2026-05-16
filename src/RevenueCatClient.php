@@ -11,7 +11,7 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 
-final class RevenueCatClient
+class RevenueCatClient
 {
     private const API_HOST = 'https://api.revenuecat.com/';
 

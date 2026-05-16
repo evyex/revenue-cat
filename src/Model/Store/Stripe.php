@@ -6,7 +6,7 @@ namespace Evyex\RevenueCat\Model\Store;
 
 use Evyex\RevenueCat\Model\ModelInterface;
 
-final readonly class Stripe implements ModelInterface
+readonly class Stripe implements ModelInterface
 {
     public function __construct(private ?string $stripeAccountId)
     {

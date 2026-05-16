@@ -7,7 +7,7 @@ namespace Evyex\RevenueCat\Request\App\Create\Payload;
 use Evyex\RevenueCat\Enum\AppType;
 use Evyex\RevenueCat\Request\Helpers\ParamTrait;
 
-final readonly class PlayStoreAppCreatePayload implements AppCreatePayloadInterface
+readonly class PlayStoreAppCreatePayload implements AppCreatePayloadInterface
 {
     use ParamTrait;
 

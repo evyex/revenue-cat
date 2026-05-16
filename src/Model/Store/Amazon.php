@@ -6,7 +6,7 @@ namespace Evyex\RevenueCat\Model\Store;
 
 use Evyex\RevenueCat\Model\ModelInterface;
 
-final readonly class Amazon implements ModelInterface
+readonly class Amazon implements ModelInterface
 {
     public function __construct(private string $packageName)
     {

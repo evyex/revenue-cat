@@ -7,7 +7,7 @@ namespace Evyex\RevenueCat\Model;
 use Evyex\RevenueCat\Enum\DeletedObjectType;
 use Evyex\RevenueCat\Normalizer;
 
-final readonly class DeletedObject implements ModelInterface
+readonly class DeletedObject implements ModelInterface
 {
     private function __construct(
         private DeletedObjectType $object,

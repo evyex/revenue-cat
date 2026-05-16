@@ -6,7 +6,7 @@ namespace Evyex\RevenueCat\Model\Store;
 
 use Evyex\RevenueCat\Model\ModelInterface;
 
-final readonly class PlayStore implements ModelInterface
+readonly class PlayStore implements ModelInterface
 {
     public function __construct(private string $packageName)
     {

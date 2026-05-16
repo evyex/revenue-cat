@@ -10,7 +10,7 @@ use Evyex\RevenueCat\Request\Helpers\AuthTrait;
 use Evyex\RevenueCat\Request\Helpers\GetTrait;
 use Evyex\RevenueCat\Request\RevenueCatRequestInterface;
 
-final class GetAppRequest implements RevenueCatRequestInterface
+class GetAppRequest implements RevenueCatRequestInterface
 {
     use AuthTrait;
     use GetTrait;

@@ -6,7 +6,7 @@ namespace Evyex\RevenueCat\Model\Store;
 
 use Evyex\RevenueCat\Model\ModelInterface;
 
-final readonly class Roku implements ModelInterface
+readonly class Roku implements ModelInterface
 {
     public function __construct(
         private ?string $rokuChannelId,

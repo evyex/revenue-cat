@@ -6,7 +6,7 @@ namespace Evyex\RevenueCat\Model\Store;
 
 use Evyex\RevenueCat\Model\ModelInterface;
 
-final readonly class AppStore implements ModelInterface
+readonly class AppStore implements ModelInterface
 {
     public function __construct(
         private string $bundleId,

@@ -7,7 +7,7 @@ namespace Evyex\RevenueCat\Model\Store;
 use Evyex\RevenueCat\Enum\Currency;
 use Evyex\RevenueCat\Model\ModelInterface;
 
-final readonly class RcBilling implements ModelInterface
+readonly class RcBilling implements ModelInterface
 {
     public function __construct(
         private ?string $stripeAccountId,
