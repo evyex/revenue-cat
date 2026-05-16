@@ -1,0 +1,15 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Evyex\RevenueCat\Model\App;
+
+use Evyex\RevenueCat\Model\AbstractPaginator;
+
+class AppListPublicApiKey extends AbstractPaginator
+{
+    protected function getItemClass(): string
+    {
+        return AppPublicApiKey::class;
+    }
+}
