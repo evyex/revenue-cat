@@ -59,6 +59,25 @@ $response = $client->send(new CreateAppRequest(
 $app = $response->getData();
 ```
 
+## Example: Delete app (v2)
+
+```php
+<?php
+
+use Evyex\RevenueCat\Request\App\DeleteAppRequest;
+use Evyex\RevenueCat\RevenueCatClient;
+
+$client = new RevenueCatClient($httpClient, $requestFactory, $streamFactory);
+
+$response = $client->send(new DeleteAppRequest(
+    token: 'rc_xxx_secret_v2_key',
+    projectId: 'proj1ab2c3d4',
+    appId: 'app1a2b3c4',
+));
+
+$deleted = $response->getData();
+```
+
 ## Example: Get app (v2)
 
 ```php
