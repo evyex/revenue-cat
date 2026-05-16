@@ -6,7 +6,7 @@ namespace Evyex\RevenueCat\Model\App;
 
 use Evyex\RevenueCat\Model\AbstractPaginator;
 
-final class AppList extends AbstractPaginator
+class AppList extends AbstractPaginator
 {
     protected function getItemClass(): string
     {

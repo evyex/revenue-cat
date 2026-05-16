@@ -7,7 +7,7 @@ namespace Evyex\RevenueCat\Model\App;
 use Evyex\RevenueCat\Model\ModelInterface;
 use Evyex\RevenueCat\Normalizer;
 
-final readonly class App implements ModelInterface
+readonly class App implements ModelInterface
 {
     private function __construct(
         private string $object,
