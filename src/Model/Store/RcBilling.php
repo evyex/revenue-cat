@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Evyex\RevenueCat\Model\Store;
 
-use Evyex\RevenueCat\Model\Enum\RcBillingCurrency;
+use Evyex\RevenueCat\Enum\Currency;
 use Evyex\RevenueCat\Model\ModelInterface;
 
 final readonly class RcBilling implements ModelInterface
@@ -13,7 +13,7 @@ final readonly class RcBilling implements ModelInterface
         private ?string $stripeAccountId,
         private string $appName,
         private ?string $supportEmail,
-        private RcBillingCurrency $defaultCurrency,
+        private Currency $defaultCurrency,
     ) {
     }
 
@@ -23,7 +23,7 @@ final readonly class RcBilling implements ModelInterface
             stripeAccountId: $data['stripe_account_id'] ?? null,
             appName: $data['app_name'],
             supportEmail: $data['support_email'] ?? null,
-            defaultCurrency: RcBillingCurrency::from($data['default_currency']),
+            defaultCurrency: Currency::from($data['default_currency']),
         );
     }
 
@@ -42,7 +42,7 @@ final readonly class RcBilling implements ModelInterface
         return $this->supportEmail;
     }
 
-    public function getDefaultCurrency(): RcBillingCurrency
+    public function getDefaultCurrency(): Currency
     {
         return $this->defaultCurrency;
     }
