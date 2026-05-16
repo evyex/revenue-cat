@@ -4,90 +4,56 @@ declare(strict_types=1);
 
 namespace Evyex\RevenueCat;
 
-use Evyex\RevenueCat\Http\ApiTransport;
-use Evyex\RevenueCat\Model\Customer;
-use Evyex\RevenueCat\Model\CustomerActiveEntitlement;
-use Evyex\RevenueCat\Model\PaginatedResult;
-use Evyex\RevenueCat\Model\Purchase;
-use Evyex\RevenueCat\Model\Subscription;
-use Evyex\RevenueCat\Request\CreateCustomerRequest;
-use Evyex\RevenueCat\Request\ListRequest;
+use Evyex\RevenueCat\Model\ModelInterface;
+use Evyex\RevenueCat\Request\RevenueCatRequestInterface;
+use Psr\Http\Client\ClientExceptionInterface;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 
-final readonly class RevenueCatClient
+final class RevenueCatClient
 {
-    private const API_V2_PREFIX = '/v2';
+    private const API_HOST = 'https://api.revenuecat.com/';
 
     public function __construct(
-        private ApiTransport $transport,
-        private Config $config,
+        private ClientInterface $httpClient,
+        private RequestFactoryInterface $requestFactory,
+        private StreamFactoryInterface $streamFactory,
     ) {
     }
 
-    public static function build(ApiTransport $transport, Config $config): self
+    /**
+     * @template TResponse of ModelInterface
+     * @param RevenueCatRequestInterface<TResponse> $request
+     * @return Response<TResponse>
+     * @throws \Exception
+     */
+    public function send(RevenueCatRequestInterface $request): Response
     {
-        return new self($transport->withAuthToken($config->apiKey), $config);
-    }
-
-    public function createCustomer(CreateCustomerRequest $request): Customer
-    {
-        $data = $this->transport->request(
-            'POST',
-            sprintf(self::API_V2_PREFIX . '/projects/%s/customers', rawurlencode($this->config->projectId)),
-            body: $request->toArray(),
-        );
-
-        return Customer::fromArray($data);
-    }
-
-    public function getCustomer(string $customerId, bool $expandAttributes = false): Customer
-    {
-        $query = [];
-        if ($expandAttributes) {
-            $query['expand[]'] = 'attributes';
+        $url = self::API_HOST . ltrim($request->path(), '/');
+        $query = $request->query();
+        if ($query !== []) {
+            $url .= '?' . http_build_query($query);
         }
 
-        $data = $this->transport->request(
-            'GET',
-            sprintf(self::API_V2_PREFIX . '/projects/%s/customers/%s', rawurlencode($this->config->projectId), rawurlencode($customerId)),
-            query: $query,
-        );
+        $psrRequest = $this->requestFactory->createRequest($request->method(), $url);
+        foreach ($request->headers() as $name => $value) {
+            $psrRequest = $psrRequest->withHeader($name, $value);
+        }
 
-        return Customer::fromArray($data);
-    }
+        $jsonBody = $request->jsonBody();
+        if ($jsonBody !== null) {
+            $psrRequest = $psrRequest
+                ->withHeader('Content-Type', 'application/json')
+                ->withBody($this->streamFactory->createStream((string) json_encode($jsonBody, JSON_THROW_ON_ERROR)));
+        }
 
-    /** @return PaginatedResult<Subscription> */
-    public function listSubscriptions(string $customerId, ListRequest $request = new ListRequest()): PaginatedResult
-    {
-        $data = $this->transport->request(
-            'GET',
-            sprintf(self::API_V2_PREFIX . '/projects/%s/customers/%s/subscriptions', rawurlencode($this->config->projectId), rawurlencode($customerId)),
-            query: $request->toQuery(),
-        );
+        try {
+            $response = $this->httpClient->sendRequest($psrRequest);
+        } catch (ClientExceptionInterface $e) {
+            throw new \RuntimeException('RevenueCat transport error', previous: $e);
+        }
 
-        return PaginatedResult::fromArray($data, Subscription::fromArray(...));
-    }
-
-    /** @return PaginatedResult<Purchase> */
-    public function listPurchases(string $customerId, ListRequest $request = new ListRequest()): PaginatedResult
-    {
-        $data = $this->transport->request(
-            'GET',
-            sprintf(self::API_V2_PREFIX . '/projects/%s/customers/%s/purchases', rawurlencode($this->config->projectId), rawurlencode($customerId)),
-            query: $request->toQuery(),
-        );
-
-        return PaginatedResult::fromArray($data, Purchase::fromArray(...));
-    }
-
-    /** @return PaginatedResult<CustomerActiveEntitlement> */
-    public function listActiveEntitlements(string $customerId, ListRequest $request = new ListRequest()): PaginatedResult
-    {
-        $data = $this->transport->request(
-            'GET',
-            sprintf(self::API_V2_PREFIX . '/projects/%s/customers/%s/active_entitlements', rawurlencode($this->config->projectId), rawurlencode($customerId)),
-            query: $request->toQuery(),
-        );
-
-        return PaginatedResult::fromArray($data, CustomerActiveEntitlement::fromArray(...));
+        return new Response($response, $request::dataClass());
     }
 }
