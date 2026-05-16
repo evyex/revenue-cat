@@ -13,3 +13,22 @@ MVP SDK for RevenueCat REST API(backend/server side), built on PSR interfaces.
 - `psr/http-client`
 - `psr/http-factory`
 - `psr/http-message`
+
+## Example: List apps (v2)
+
+```php
+<?php
+
+use Evyex\RevenueCat\Request\App\ListAppsRequest;
+use Evyex\RevenueCat\RevenueCatClient;
+
+$client = new RevenueCatClient($httpClient, $requestFactory, $streamFactory);
+
+$response = $client->send(new ListAppsRequest(
+    token: 'rc_xxx_secret_v2_key',
+    projectId: 'proj1ab2c3d4',
+    limit: 20,
+));
+
+$apps = $response->getData();
+```

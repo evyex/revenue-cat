@@ -15,4 +15,9 @@ class Normalizer
     {
         return sprintf($template, ...array_map('urlencode', $args));
     }
+
+    public static function camelToSnake(string $value): string
+    {
+        return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $value) ?? '');
+    }
 }
