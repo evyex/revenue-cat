@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Evyex\RevenueCat\Model\App;
 
 use Evyex\RevenueCat\Model\ModelInterface;
+use Evyex\RevenueCat\Model\PropertyBag;
 
 readonly class StoreKitConfigFile implements ModelInterface
 {
     private function __construct(
         private string $object,
-        private StoreKitConfigContents $contents,
+        private PropertyBag $contents,
     ) {
     }
 
@@ -18,7 +19,7 @@ readonly class StoreKitConfigFile implements ModelInterface
     {
         return new self(
             object: $data['object'],
-            contents: StoreKitConfigContents::fromArray($data['contents']),
+            contents: PropertyBag::fromArray($data['contents']),
         );
     }
 
@@ -27,7 +28,7 @@ readonly class StoreKitConfigFile implements ModelInterface
         return $this->object;
     }
 
-    public function getContents(): StoreKitConfigContents
+    public function getContents(): PropertyBag
     {
         return $this->contents;
     }

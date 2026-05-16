@@ -78,6 +78,27 @@ $response = $client->send(new GetAppStoreKitConfigRequest(
 $storeKitConfig = $response->getData();
 ```
 
+## Example: List audit logs (v2)
+
+```php
+<?php
+
+use Evyex\RevenueCat\Request\AuditLog\ListAuditLogsRequest;
+use Evyex\RevenueCat\RevenueCatClient;
+
+$client = new RevenueCatClient($httpClient, $requestFactory, $streamFactory);
+
+$response = $client->send(new ListAuditLogsRequest(
+    token: 'rc_xxx_secret_v2_key',
+    projectId: 'proj1ab2c3d4',
+    startDate: '2024-01-01',
+    endDate: '2024-12-31',
+    limit: 20,
+));
+
+$auditLogs = $response->getData();
+```
+
 ## Example: Delete app (v2)
 
 ```php

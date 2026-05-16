@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Evyex\RevenueCat\Model\App;
+namespace Evyex\RevenueCat\Model;
 
-final readonly class StoreKitConfigContents
+readonly class PropertyBag
 {
     /**
      * @param array<string,mixed> $properties
@@ -24,5 +24,13 @@ final readonly class StoreKitConfigContents
     public function getProperty(string $propertyName): mixed
     {
         return $this->properties[$propertyName] ?? null;
+    }
+
+    /**
+     * @return array<string,mixed>
+     */
+    public function all(): array
+    {
+        return $this->properties;
     }
 }
