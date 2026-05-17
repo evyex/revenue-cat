@@ -228,3 +228,22 @@ $response = $client->send(new GetChartOptionsRequest(
 
 $chartOptions = $response->getData();
 ```
+
+## Example: List collaborators (v2)
+
+```php
+<?php
+
+use Evyex\RevenueCat\Request\Collaborator\ListCollaboratorsRequest;
+use Evyex\RevenueCat\RevenueCatClient;
+
+$client = new RevenueCatClient($httpClient, $requestFactory, $streamFactory);
+
+$response = $client->send(new ListCollaboratorsRequest(
+    token: 'rc_xxx_secret_v2_key',
+    projectId: 'proj1ab2c3d4',
+    limit: 20,
+));
+
+$collaborators = $response->getData();
+```
