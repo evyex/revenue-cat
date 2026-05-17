@@ -12,12 +12,14 @@ trait ParamTrait
     protected function argToArray(array $properties): array
     {
         $array = [];
+
         foreach ($properties as $property) {
             $value = $this->$property;
             if ($value instanceof BackedEnum) {
                 $value = $value->value;
             }
-            if ($value !== null && $value !== '') {
+
+            if ($value !== null && $value !== '' && $value !== []) {
                 $array[Normalizer::camelToSnake($property)] = $value;
             }
         }
@@ -28,5 +30,22 @@ trait ParamTrait
     protected function paginationQuery(): array
     {
         return $this->argToArray(['startingAfter', 'limit']);
+    }
+
+    /**
+     * @param string[] $properties
+     * @return array<string,string>
+     */
+    protected function serializeProperties(array $properties): array
+    {
+        $array = [];
+        foreach ($properties as $property) {
+            if ($this->$property === null) {
+                continue;
+            }
+            $array[$property] = json_encode($this->$property);
+        }
+
+        return $array;
     }
 }

@@ -17,15 +17,20 @@ class ListAuditLogsRequest implements RevenueCatRequestInterface
     use GetTrait;
     use ParamTrait;
 
+    private ?string $startDate;
+    private ?string $endDate;
+
     public function __construct(
         #[\SensitiveParameter]
         private string $token,
         private string $projectId,
         private ?string $startingAfter = null,
-        private ?string $startDate = null,
-        private ?string $endDate = null,
+        ?\DateTimeInterface $startDate = null,
+        ?\DateTimeInterface $endDate = null,
         private ?int $limit = null,
     ) {
+        $this->startDate = $startDate?->format('Y-m-d');
+        $this->endDate = $endDate?->format('Y-m-d');
     }
 
     public function path(): string

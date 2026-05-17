@@ -91,8 +91,8 @@ $client = new RevenueCatClient($httpClient, $requestFactory, $streamFactory);
 $response = $client->send(new ListAuditLogsRequest(
     token: 'rc_xxx_secret_v2_key',
     projectId: 'proj1ab2c3d4',
-    startDate: '2024-01-01',
-    endDate: '2024-12-31',
+    startDate: new \DateTimeImmutable('2024-01-01'),
+    endDate: new \DateTimeImmutable('2024-12-31'),
     limit: 20,
 ));
 
@@ -157,4 +157,74 @@ $response = $client->send(new GetAppRequest(
 ));
 
 $app = $response->getData();
+```
+
+## Example: Get overview metrics (v2)
+
+```php
+<?php
+
+use Evyex\RevenueCat\Enum\Currency;
+use Evyex\RevenueCat\Request\ChartsMetrics\GetOverviewMetricsRequest;
+use Evyex\RevenueCat\RevenueCatClient;
+
+$client = new RevenueCatClient($httpClient, $requestFactory, $streamFactory);
+
+$response = $client->send(new GetOverviewMetricsRequest(
+    token: 'rc_xxx_secret_v2_key',
+    projectId: 'proj1ab2c3d4',
+    currency: Currency::EUR,
+));
+
+$overviewMetrics = $response->getData();
+```
+
+## Example: Get chart data (v2)
+
+```php
+<?php
+
+use Evyex\RevenueCat\Enum\ChartsMetrics\ChartAggregate;
+use Evyex\RevenueCat\Enum\ChartsMetrics\ChartName;
+use Evyex\RevenueCat\Enum\ChartsMetrics\ChartResolution;
+use Evyex\RevenueCat\Enum\Currency;
+use Evyex\RevenueCat\Request\ChartsMetrics\GetChartDataRequest;
+use Evyex\RevenueCat\Request\Filter;
+use Evyex\RevenueCat\RevenueCatClient;
+
+$client = new RevenueCatClient($httpClient, $requestFactory, $streamFactory);
+
+$response = $client->send(new GetChartDataRequest(
+    token: 'rc_xxx_secret_v2_key',
+    projectId: 'proj1ab2c3d4',
+    chartName: ChartName::REVENUE,
+    currency: Currency::USD,
+    startDate: new \DateTimeImmutable('2024-01-01'),
+    endDate: new \DateTimeImmutable('2024-12-31'),
+    resolution: ChartResolution::DAY,
+    aggregate: [ChartAggregate::TOTAL, ChartAggregate::AVERAGE],
+    filters: [new Filter('country', ['US', 'UK'])],
+));
+
+$chartData = $response->getData();
+```
+
+## Example: Get chart options (v2)
+
+```php
+<?php
+
+use Evyex\RevenueCat\Enum\ChartsMetrics\ChartName;
+use Evyex\RevenueCat\Request\ChartsMetrics\GetChartOptionsRequest;
+use Evyex\RevenueCat\RevenueCatClient;
+
+$client = new RevenueCatClient($httpClient, $requestFactory, $streamFactory);
+
+$response = $client->send(new GetChartOptionsRequest(
+    token: 'rc_xxx_secret_v2_key',
+    projectId: 'proj1ab2c3d4',
+    chartName: ChartName::REVENUE,
+));
+
+$chartOptions = $response->getData();
 ```
