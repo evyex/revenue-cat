@@ -247,3 +247,23 @@ $response = $client->send(new ListCollaboratorsRequest(
 
 $collaborators = $response->getData();
 ```
+
+## Example: List customers (v2)
+
+```php
+<?php
+
+use Evyex\RevenueCat\Request\Customer\ListCustomersRequest;
+use Evyex\RevenueCat\RevenueCatClient;
+
+$client = new RevenueCatClient($httpClient, $requestFactory, $streamFactory);
+
+$response = $client->send(new ListCustomersRequest(
+    token: 'rc_xxx_secret_v2_key',
+    projectId: 'proj1ab2c3d4',
+    search: 'example@example.com',
+    limit: 20,
+));
+
+$customers = $response->getData();
+```
